@@ -37,24 +37,52 @@ class bst {
     }
     if (toDelete.right != null) {
       curr = toDelete.right;
-      console.log(toDelete);
+      if (curr.left == null) {
+        toDelete.data = curr.data;
+        toDelete.right = null;
+        return;
+      }
       while (curr.left != null) {
         curParent = curr;
         curr = curr.left;
       }
-      console.log(toDelete);
       toDelete.data = curr.data;
       curParent.left = null;
-    } else if (toDelete.left != null) {
+      return;
+    }
+    if (toDelete.left != null) {
       curr = toDelete.left;
+      if (curr.right == null) {
+        toDelete.data = curr.data;
+        toDelete.left = null;
+        return;
+      }
       while (curr.right != null) {
         curParent = curr;
         curr = curr.right;
       }
-      console.log(toDelete);
       toDelete.data = curr.data;
       curParent.right = null;
-      console.log(toDelete);
+      return;
+    }
+    curr = this.root;
+    let left = curr.left;
+    let right = curr.right;
+    while (left.data != value && right.data != value) {
+      if (value < curr.data) {
+        curr = curr.left;
+        left = curr.left;
+        right = curr.right;
+      } else {
+        curr = curr.right;
+        left = curr.left;
+        right = curr.right;
+      }
+    }
+    if ((left.data = value)) {
+      curr.left = null;
+    } else {
+      curr.right = null;
     }
   }
 
@@ -97,6 +125,47 @@ for (let i = 0; i < 18; i++) {
   }
 }
 testbst.delete(1);
+console.log("----1----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.delete(4);
+console.log("----4----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.delete(7);
+console.log("----7----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.delete(5);
+console.log("----5----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.delete(15);
+console.log("----15----");
 for (let i = 0; i < 18; i++) {
   let test = testbst.find(i + 1);
   if (typeof test == "string") {
