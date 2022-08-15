@@ -12,7 +12,7 @@ class bst {
   constructor(array) {
     array.sort((a, b) => a - b);
     let filtered = array.filter((item, index) => array.indexOf(item) === index);
-    this.root = this.buildTree(filtered, 0, filtered.length - 1);
+    this.root = this.buildTree(filtered);
   }
 
   hashFunction(
@@ -24,7 +24,7 @@ class bst {
     return func(data);
   }
 
-  buildTree(array, init, end) {
+  buildTree(array, init = 0, end = array.length - 1) {
     if (end < init) {
       return null;
     }
@@ -110,7 +110,6 @@ class bst {
     let left = curr.left;
     let right = curr.right;
     while (left.hash != hash && right.hash != hash) {
-      console.log(curr);
       if (hash < curr.hash) {
         curr = curr.left;
         if (curr.left != null) {
@@ -302,7 +301,10 @@ class bst {
     }
   }
 
-  reBalance() {}
+  reBalance() {
+    let newArray = this.inOrder();
+    this.root = this.buildTree(newArray);
+  }
 }
 
 let test = [
@@ -425,4 +427,6 @@ testbst.delete(6);
 console.log(testbst.find(5));
 testbst.delete(5);
 testbst.delete(1);
+console.log(testbst.isBalanced());
+testbst.reBalance();
 console.log(testbst.isBalanced());
