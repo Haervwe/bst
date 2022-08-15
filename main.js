@@ -183,21 +183,28 @@ class bst {
   ) {
     result.push(func(curr.data));
     if (curr.left != null) {
-      result = this.inOrder(func, result, curr.left);
+      result = this.preOrder(func, result, curr.left);
     }
     if (curr.right != null) {
-      result = this.inOrder(func, result, curr.right);
+      result = this.preOrder(func, result, curr.right);
     }
     return result;
   }
   postOrder(
     func = (n) => {
       return n;
-    }
+    },
+    result = [],
+    curr = this.root
   ) {
-    let queue = [this.root];
-    let curr;
-    let result = [];
+    if (curr.left != null) {
+      result = this.postOrder(func, result, curr.left);
+    }
+    if (curr.right != null) {
+      result = this.postOrder(func, result, curr.right);
+    }
+    result.push(func(curr.data));
+    return result;
   }
   height() {}
   depth() {}
@@ -289,7 +296,13 @@ console.log(
 );
 console.log(testbst.preOrder());
 console.log(
-  testbst.inOrder((n) => {
+  testbst.preOrder((n) => {
+    return n / 2;
+  })
+);
+console.log(testbst.postOrder());
+console.log(
+  testbst.postOrder((n) => {
     return n / 2;
   })
 );
