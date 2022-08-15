@@ -60,31 +60,41 @@ class bst {
       return "node not found";
     }
     if (toDelete.right != null) {
+      curParent = toDelete;
       curr = toDelete.right;
       if (curr.left == null) {
         toDelete.data = curr.data;
+        curParent.right = null;
         return;
       }
       while (curr.left != null) {
         curParent = curr;
+        console.log(curParent, "in delete", value, curr);
         curr = curr.left;
       }
+      console.log(curParent, "in delete", value, curr);
       toDelete.data = curr.data;
       curParent.left = null;
+      console.log(curParent, "finish delete", value, toDelete);
       return;
     }
     if (toDelete.left != null) {
+      curParent = toDelete;
       curr = toDelete.left;
       if (curr.right == null) {
         toDelete.data = curr.data;
+        curParent.left = null;
         return;
       }
       while (curr.right != null) {
         curParent = curr;
+        console.log(curParent, "in delete", value, curr);
         curr = curr.right;
       }
+      console.log(curParent, "in delete", value, curr);
       toDelete.data = curr.data;
       curParent.right = null;
+      console.log(curParent, "finish delete", value, toDelete);
       return;
     }
     curr = this.root;
@@ -148,9 +158,47 @@ class bst {
     } while (queue.length != 0);
     return result;
   }
-  inOrder() {}
-  preOrder() {}
-  postOrder() {}
+  inOrder(
+    func = (n) => {
+      return n;
+    },
+    result = [],
+    curr = this.root
+  ) {
+    if (curr.left != null) {
+      result = this.inOrder(func, result, curr.left);
+    }
+    result.push(func(curr.data));
+    if (curr.right != null) {
+      result = this.inOrder(func, result, curr.right);
+    }
+    return result;
+  }
+  preOrder(
+    func = (n) => {
+      return n;
+    },
+    result = [],
+    curr = this.root
+  ) {
+    result.push(func(curr.data));
+    if (curr.left != null) {
+      result = this.inOrder(func, result, curr.left);
+    }
+    if (curr.right != null) {
+      result = this.inOrder(func, result, curr.right);
+    }
+    return result;
+  }
+  postOrder(
+    func = (n) => {
+      return n;
+    }
+  ) {
+    let queue = [this.root];
+    let curr;
+    let result = [];
+  }
   height() {}
   depth() {}
   isBalanced() {}
@@ -174,133 +222,75 @@ for (let i = 0; i < 18; i++) {
     console.log(test.data);
   }
 }
+console.log("----Delete----");
 testbst.delete(1);
 console.log("----1----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.delete(4);
 console.log("----4----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.delete(7);
 console.log("----7----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 console.log(testbst.find(5));
 testbst.delete(5);
 console.log("----5----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.delete(15);
 console.log("----15----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
+console.log("----Insert----");
 testbst.insert(1);
 console.log("----1----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.insert(4);
 console.log("----4----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.insert(7);
 console.log("----7----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.insert(5);
 console.log("----5----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.insert(15);
 console.log("----15----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 testbst.insert(255);
 console.log("----255----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 console.log(testbst.find(255));
 testbst.insert(-25);
+console.log(testbst.inOrder());
+console.log(testbst.levelOrder());
 console.log("---- -25 ----");
-for (let i = 0; i < 18; i++) {
-  let test = testbst.find(i + 1);
-  if (typeof test == "string") {
-    console.log(test);
-  } else {
-    console.log(test.data);
-  }
-}
-console.log(testbst.find(255));
-console.log(testbst.find(-25));
+console.log(testbst.inOrder());
 console.log(testbst.levelOrder());
 console.log(
   testbst.levelOrder((n) => {
     return n / 2;
   })
 );
+console.log(testbst.inOrder());
+console.log(
+  testbst.inOrder((n) => {
+    return n / 2;
+  })
+);
+console.log(testbst.preOrder());
+console.log(
+  testbst.inOrder((n) => {
+    return n / 2;
+  })
+);
+console.log(testbst.find(8));
