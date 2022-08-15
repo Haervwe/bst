@@ -220,7 +220,24 @@ class bst {
     return result;
   }
 
-  height() {}
+  height(data, currentHeight = 0) {
+    let curr = this.find(data);
+    if (curr.left == null && curr.right == null) {
+      return currentHeight;
+    }
+    let right = curr.right;
+    let left = curr.left;
+    let rightHeight = 0;
+    let leftHeight = 0;
+    if (right != null) {
+      rightHeight = this.height(right.data, currentHeight + 1);
+    }
+    if ((left = null)) {
+      leftHeight = this.height(left.data, currentHeight + 1);
+    }
+    let maxHeight = Math.max(rightHeight, leftHeight);
+    return maxHeight;
+  }
 
   depth(data, current = this.root, currentDepth = 0) {
     let hash = this.hashFunction(data);
@@ -318,31 +335,41 @@ console.log(testbst.levelOrder());
 console.log("---- -25 ----");
 console.log(testbst.inOrder());
 console.log(testbst.levelOrder());
+console.log("---- levelOrder ----");
 console.log(
   testbst.levelOrder((n) => {
     return n / 2;
   })
 );
+console.log("---- inOrder ----");
 console.log(testbst.inOrder());
 console.log(
   testbst.inOrder((n) => {
     return n / 2;
   })
 );
+console.log("---- preOrder ----");
 console.log(testbst.preOrder());
 console.log(
   testbst.preOrder((n) => {
     return n / 2;
   })
 );
+console.log("---- postOrder ----");
 console.log(testbst.postOrder());
 console.log(
   testbst.postOrder((n) => {
     return n / 2;
   })
 );
+console.log("---- depth ----");
 console.log(testbst.find(8));
 for (let i = 0; i < 18; i++) {
   let test = testbst.depth(i + 1);
-  console.log(test);
+  console.log(test, i + 1);
+}
+console.log("---- height ----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.height(i + 1);
+  console.log(test, i + 1);
 }
