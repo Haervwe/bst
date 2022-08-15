@@ -94,7 +94,7 @@ class bst {
       if (curr.right == null) {
         toDelete.hash = curr.hash;
         toDelete.data = curr.data;
-        toDelete.left = cur.left;
+        toDelete.left = curr.left;
         return;
       }
       while (curr.right != null) {
@@ -110,21 +110,32 @@ class bst {
     let left = curr.left;
     let right = curr.right;
     while (left.hash != hash && right.hash != hash) {
+      console.log(curr);
       if (hash < curr.hash) {
         curr = curr.left;
-        left = curr.left;
-        right = curr.right;
-      } else {
+        if (curr.left != null) {
+          left = curr.left;
+        }
+        if (curr.right != null) {
+          right = curr.right;
+        }
+      } else if (hash > curr.hash) {
         curr = curr.right;
-        left = curr.left;
-        right = curr.right;
+        if (curr.left != null) {
+          left = curr.left;
+        }
+        if (curr.right != null) {
+          right = curr.right;
+        }
       }
     }
     if (left.hash == hash) {
       curr.left = null;
+      return;
     }
     if (right.hash == hash) {
       curr.right = null;
+      return;
     }
   }
 
@@ -258,7 +269,38 @@ class bst {
     }
   }
 
-  isBalanced() {}
+  isBalanced(node = this.root) {
+    let right = this.inOrder(
+      (a) => {
+        return a;
+      },
+      [],
+      this.root.right
+    ).length;
+    if (node.right != null) {
+      if (typeof this.isBalanced(node.right) == "tree is unbalanced") {
+        return "tree is unbalanced";
+      }
+    }
+    let left = this.inOrder(
+      (a) => {
+        return a;
+      },
+      [],
+      this.root.left
+    ).length;
+    if (node.left != null) {
+      if (typeof this.isBalanced(node.left) == "tree is unbalanced") {
+        return "tree is unbalanced";
+      }
+    }
+    let diference = Math.abs(right - left);
+    if (diference > 1) {
+      return "tree is unbalanced";
+    } else {
+      return "tree is balanced";
+    }
+  }
 
   reBalance() {}
 }
@@ -373,3 +415,14 @@ for (let i = 0; i < 18; i++) {
   let test = testbst.height(i + 1);
   console.log(test, i + 1);
 }
+console.log("---- balance ----");
+console.log(testbst.isBalanced());
+testbst.insert(56);
+testbst.insert(78);
+testbst.insert(150);
+console.log(testbst.isBalanced());
+testbst.delete(6);
+console.log(testbst.find(5));
+testbst.delete(5);
+testbst.delete(1);
+console.log(testbst.isBalanced());
