@@ -1,5 +1,6 @@
 class Node {
-  constructor(data) {
+  constructor(data, hash) {
+    this.hash = hash;
     this.data = data;
     this.left = null;
     this.right = null;
@@ -14,46 +15,56 @@ class bst {
     this.root = this.buildTree(filtered, 0, filtered.length - 1);
   }
 
+  hashFunction(
+    data,
+    func = (data) => {
+      return data;
+    }
+  ) {
+    return func(data);
+  }
+
   buildTree(array, init, end) {
     if (end < init) {
       return null;
     }
     let middle = Math.floor((end + init) / 2);
-    let root = new Node(array[middle]);
-    console.log(root.data);
+    let root = new Node(array[middle], this.hashFunction(array[middle]));
+    console.log(root.hash);
     root.left = this.buildTree(array, init, middle - 1);
     root.right = this.buildTree(array, middle + 1, end);
     return root;
   }
 
-  insert(value) {
-    if (typeof this.find(value) != "string") {
+  insert(data) {
+    let test = this.find(data);
+    if (typeof test != "string") {
       return "this node already exist";
     }
     let cur = this.root;
+    let hash = this.hashFunction(data);
     do {
-      if (value > cur.data) {
+      if (hash > cur.hash) {
         if (cur.right != null) {
           cur = cur.right;
         } else {
-          cur.right = new Node(value);
-          console.log(cur, "inside right");
+          cur.right = new Node(data, this.hashFunction(data));
           break;
         }
       } else {
         if (cur.left != null) {
           cur = cur.left;
         } else {
-          cur.left = new Node(value);
-          console.log(cur), "inside left";
+          cur.left = new Node(data, this.hashFunction(data));
           break;
         }
       }
     } while (cur != null);
   }
 
-  delete(value) {
-    let toDelete = this.find(value);
+  delete(data) {
+    let hash = this.hashFunction(data);
+    let toDelete = this.find(hash);
     let curr;
     let curParent;
     if (typeof toDelete == "string") {
@@ -63,45 +74,43 @@ class bst {
       curParent = toDelete;
       curr = toDelete.right;
       if (curr.left == null) {
+        toDelete.hash = curr.hash;
         toDelete.data = curr.data;
-        curParent.right = null;
+        toDelete.right = curr.right;
         return;
       }
       while (curr.left != null) {
         curParent = curr;
-        console.log(curParent, "in delete", value, curr);
         curr = curr.left;
       }
-      console.log(curParent, "in delete", value, curr);
+      toDelete.hash = curr.hash;
       toDelete.data = curr.data;
       curParent.left = null;
-      console.log(curParent, "finish delete", value, toDelete);
       return;
     }
     if (toDelete.left != null) {
       curParent = toDelete;
       curr = toDelete.left;
       if (curr.right == null) {
+        toDelete.hash = curr.hash;
         toDelete.data = curr.data;
-        curParent.left = null;
+        toDelete.left = cur.left;
         return;
       }
       while (curr.right != null) {
         curParent = curr;
-        console.log(curParent, "in delete", value, curr);
         curr = curr.right;
       }
-      console.log(curParent, "in delete", value, curr);
+      toDelete.hash = curr.hash;
       toDelete.data = curr.data;
       curParent.right = null;
-      console.log(curParent, "finish delete", value, toDelete);
       return;
     }
     curr = this.root;
     let left = curr.left;
     let right = curr.right;
-    while (left.data != value && right.data != value) {
-      if (value < curr.data) {
+    while (left.hash != hash && right.hash != hash) {
+      if (hash < curr.hash) {
         curr = curr.left;
         left = curr.left;
         right = curr.right;
@@ -111,27 +120,28 @@ class bst {
         right = curr.right;
       }
     }
-    if (left.data == value) {
+    if (left.hash == hash) {
       curr.left = null;
     }
-    if (right.data == value) {
+    if (right.hash == hash) {
       curr.right = null;
     }
   }
 
-  find(value, current = this.root) {
-    if (value == current.data) {
+  find(data, current = this.root) {
+    let hash = this.hashFunction(data);
+    if (hash == current.hash) {
       return current;
     }
-    if (value < current.data) {
+    if (hash < current.hash) {
       if (current.left != null) {
-        return this.find(value, current.left);
+        return this.find(hash, current.left);
       }
       return "node not found";
     }
-    if (value > current.data) {
+    if (hash > current.hash) {
       if (current.right != null) {
-        return this.find(value, current.right);
+        return this.find(hash, current.right);
       }
       return "node not found";
     }
@@ -158,6 +168,7 @@ class bst {
     } while (queue.length != 0);
     return result;
   }
+
   inOrder(
     func = (n) => {
       return n;
@@ -174,6 +185,7 @@ class bst {
     }
     return result;
   }
+
   preOrder(
     func = (n) => {
       return n;
@@ -190,6 +202,7 @@ class bst {
     }
     return result;
   }
+
   postOrder(
     func = (n) => {
       return n;
@@ -206,9 +219,13 @@ class bst {
     result.push(func(curr.data));
     return result;
   }
+
   height() {}
+
   depth() {}
+
   isBalanced() {}
+
   reBalance() {}
 }
 
@@ -229,6 +246,7 @@ for (let i = 0; i < 18; i++) {
     console.log(test.data);
   }
 }
+
 console.log("----Delete----");
 testbst.delete(1);
 console.log("----1----");
