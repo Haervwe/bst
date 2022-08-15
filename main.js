@@ -26,7 +26,31 @@ class bst {
     return root;
   }
 
-  insert(value) {}
+  insert(value) {
+    if (typeof this.find(value) != "string") {
+      return "this node already exist";
+    }
+    let cur = this.root;
+    do {
+      if (value > cur.data) {
+        if (cur.right != null) {
+          cur = cur.right;
+        } else {
+          cur.right = new Node(value);
+          console.log(cur, "inside right");
+          break;
+        }
+      } else {
+        if (cur.left != null) {
+          cur = cur.left;
+        } else {
+          cur.left = new Node(value);
+          console.log(cur), "inside left";
+          break;
+        }
+      }
+    } while (cur != null);
+  }
 
   delete(value) {
     let toDelete = this.find(value);
@@ -39,7 +63,6 @@ class bst {
       curr = toDelete.right;
       if (curr.left == null) {
         toDelete.data = curr.data;
-        toDelete.right = null;
         return;
       }
       while (curr.left != null) {
@@ -54,7 +77,6 @@ class bst {
       curr = toDelete.left;
       if (curr.right == null) {
         toDelete.data = curr.data;
-        toDelete.left = null;
         return;
       }
       while (curr.right != null) {
@@ -79,9 +101,10 @@ class bst {
         right = curr.right;
       }
     }
-    if ((left.data = value)) {
+    if (left.data == value) {
       curr.left = null;
-    } else {
+    }
+    if (right.data == value) {
       curr.right = null;
     }
   }
@@ -104,7 +127,34 @@ class bst {
     }
   }
 
-  levelOrder(func) {}
+  levelOrder(
+    func = (n) => {
+      return n;
+    }
+  ) {
+    let queue = [this.root];
+    let curr;
+    let result = [];
+    do {
+      curr = queue[0];
+      queue.shift();
+      if (curr.left != null) {
+        queue.push(curr.left);
+      }
+      if (curr.right != null) {
+        queue.push(curr.right);
+      }
+      result.push(func(curr.data));
+    } while (queue.length != 0);
+    return result;
+  }
+  inOrder() {}
+  preOrder() {}
+  postOrder() {}
+  height() {}
+  depth() {}
+  isBalanced() {}
+  reBalance() {}
 }
 
 let test = [
@@ -154,6 +204,7 @@ for (let i = 0; i < 18; i++) {
     console.log(test.data);
   }
 }
+console.log(testbst.find(5));
 testbst.delete(5);
 console.log("----5----");
 for (let i = 0; i < 18; i++) {
@@ -174,3 +225,82 @@ for (let i = 0; i < 18; i++) {
     console.log(test.data);
   }
 }
+testbst.insert(1);
+console.log("----1----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.insert(4);
+console.log("----4----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.insert(7);
+console.log("----7----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.insert(5);
+console.log("----5----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.insert(15);
+console.log("----15----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+testbst.insert(255);
+console.log("----255----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+console.log(testbst.find(255));
+testbst.insert(-25);
+console.log("---- -25 ----");
+for (let i = 0; i < 18; i++) {
+  let test = testbst.find(i + 1);
+  if (typeof test == "string") {
+    console.log(test);
+  } else {
+    console.log(test.data);
+  }
+}
+console.log(testbst.find(255));
+console.log(testbst.find(-25));
+console.log(testbst.levelOrder());
+console.log(
+  testbst.levelOrder((n) => {
+    return n / 2;
+  })
+);
