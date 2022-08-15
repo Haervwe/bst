@@ -222,7 +222,24 @@ class bst {
 
   height() {}
 
-  depth() {}
+  depth(data, current = this.root, currentDepth = 0) {
+    let hash = this.hashFunction(data);
+    if (hash == current.hash) {
+      return currentDepth;
+    }
+    if (hash < current.hash) {
+      if (current.left != null) {
+        return this.depth(hash, current.left, currentDepth + 1);
+      }
+      return "node not found";
+    }
+    if (hash > current.hash) {
+      if (current.right != null) {
+        return this.depth(hash, current.right, currentDepth + 1);
+      }
+      return "node not found";
+    }
+  }
 
   isBalanced() {}
 
@@ -325,3 +342,7 @@ console.log(
   })
 );
 console.log(testbst.find(8));
+for (let i = 0; i < 18; i++) {
+  let test = testbst.depth(i + 1);
+  console.log(test);
+}
