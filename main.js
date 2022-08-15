@@ -8,7 +8,7 @@ class Node {
 }
 
 class bst {
-  //fisrt constructor call only neds array as input, oders de array and removes duplicates before creating de tree;
+  //first constructor call only neds array as input, orders de array and removes duplicates before creating de tree;
   constructor(array) {
     array.sort((a, b) => a - b);
     let filtered = array.filter((item, index) => array.indexOf(item) === index);
@@ -30,7 +30,6 @@ class bst {
     }
     let middle = Math.floor((end + init) / 2);
     let root = new Node(array[middle], this.hashFunction(array[middle]));
-    console.log(root.hash);
     root.left = this.buildTree(array, init, middle - 1);
     root.right = this.buildTree(array, middle + 1, end);
     return root;
@@ -373,10 +372,10 @@ console.log("----255----");
 console.log(testbst.inOrder());
 console.log(testbst.levelOrder());
 console.log(testbst.find(255));
-testbst.insert(-25);
+testbst.insert(25);
 console.log(testbst.inOrder());
 console.log(testbst.levelOrder());
-console.log("---- -25 ----");
+console.log("---- 25 ----");
 console.log(testbst.inOrder());
 console.log(testbst.levelOrder());
 console.log("---- levelOrder ----");
@@ -422,11 +421,33 @@ console.log(testbst.isBalanced());
 testbst.insert(56);
 testbst.insert(78);
 testbst.insert(150);
+console.log("---- balance after few insertions----");
+console.log(testbst.levelOrder());
 console.log(testbst.isBalanced());
 testbst.delete(6);
-console.log(testbst.find(5));
 testbst.delete(5);
 testbst.delete(1);
+console.log("---- balance after few deletions----");
+console.log(testbst.levelOrder());
 console.log(testbst.isBalanced());
+console.log("---- balance after rebalance----");
 testbst.reBalance();
 console.log(testbst.isBalanced());
+for (let i = 18; i < 200; i++) {
+  testbst.insert(i + 1);
+}
+console.log("---- balance after 200 insertions in one side----");
+console.log(testbst.levelOrder());
+testbst.reBalance();
+console.log(testbst.isBalanced());
+console.log("---- depth ----");
+console.log(testbst.find(8));
+for (let i = -25; i < 200; i++) {
+  let test = testbst.depth(i + 1);
+  console.log(test, i + 1);
+}
+console.log("---- height ----");
+for (let i = 0; i < 200; i++) {
+  let test = testbst.height(i + 1);
+  console.log(test, i + 1);
+}
